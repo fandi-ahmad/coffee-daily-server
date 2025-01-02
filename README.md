@@ -1,4 +1,4 @@
-## Express Js + Typescript Restful API Blog
+## Express Js + Typescript
 
 ### installation
 Create a database and customize the .env file. Then run this command in terminal
