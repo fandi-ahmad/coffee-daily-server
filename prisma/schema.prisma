@@ -46,11 +46,107 @@ model User_Buyer {
 
 
 model User_Seller {
-  id            Int       @default(autoincrement()) @id
+  id            Int         @default(autoincrement()) @id
   photo         String
   username      String
-  address       String    @db.Text
-  created_at    DateTime  @default(now())
+  address       String      @db.Text
+  created_at    DateTime    @default(now())
 
-  user          User         @relation("UserToSeller", fields: [id], references: [id])
+  user          User        @relation("UserToSeller", fields: [id], references: [id])
+  products      Products[]
+}
+
+
+model Products {
+  id              Int       @default(autoincrement()) @id
+  id_user_seller  Int
+  photo           String
+  name            String
+  description     String    @db.Text
+  price           Int
+  id_category     Int
+  total_sales     Int
+  total_earning   Int
+
+  user_seller       User_Seller?      @relation(fields: [id_user_seller], references: [id])
+  product_category  Product_category  @relation(fields: [id_category], references: [id])
+
+  product_topping   Product_Topping[]
+  product_size      Product_Size[]
+  product_order_history   Product_Order_History[]
+}
+
+model Product_category {
+  id          Int           @default(autoincrement()) @id
+  name        String
+
+  products    Products[]
+}
+
+model Product_Topping {
+  id          Int           @default(autoincrement()) @id
+  id_product  Int
+  id_topping  Int
+
+  products    Products    @relation(fields: [id_product], references: [id])
+  topping     Topping     @relation(fields: [id_topping], references: [id])
+}
+
+model Topping {
+  id          Int           @default(autoincrement()) @id
+  name        String
+  price       Int
+  id_user     Int
+
+  product_topping   Product_Topping[]
+}
+
+model Product_Size {
+  id          Int           @default(autoincrement()) @id
+  id_product  Int
+  id_size     Int
+
+  products    Products      @relation(fields: [id_product], references: [id])
+  size        Size          @relation(fields: [id_size], references: [id])
+}
+
+model Size {
+  id          Int           @default(autoincrement()) @id
+  name        String
+  price       Int
+  id_user     Int
+
+  product_size      Product_Size[]
+}
+
+
+enum Payment_Method {
+  cash
+  transfer
+}
+enum Status {
+  s1
+  s2
+  s3
+  s4
+  s5
+}
+model Product_Order_History {
+  id              Int       @default(autoincrement()) @id
+  id_product      Int
+  buyer_name      String
+  phone_number    String
+  address         String    @db.Text
+  product_ordered String
+  product_price   Int
+  topping         String
+  topping_price   Int
+  size            String
+  size_price      Int
+  quantity        Int
+  earning_payment Int
+  payment_method  Payment_Method
+  status          Status
+
+  products        Products?  @relation(fields: [id_product], references: [id])
 }
