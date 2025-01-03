@@ -17,7 +17,10 @@ export const UserService = {
         role: 'nonadmin'
       })
 
-      await UserBuyerRepository.createUserBuyer({
+      const userByEmail = await UserRepository.getUserByEmail(data.email)
+
+      await UserBuyerRepository.create({
+        id: userByEmail?.id,
         username: '',
         photo: '',
         address: '',

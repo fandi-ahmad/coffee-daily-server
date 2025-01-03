@@ -5,6 +5,6 @@ import { UserBuyerDTO } from "@/interface/UserDTO"
 export const UserBuyerService = {
   async updateUserBuyer(id: number, data: UserBuyerDTO) {
     await UserService.getUserById(id)
-    return await UserBuyerRepository.updateUserBuyer(id, data)
+    return await UserBuyerRepository.update(id, data)
   }
 }
