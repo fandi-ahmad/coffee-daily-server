@@ -4,15 +4,15 @@ import { errorResponse } from "@/helper/errorResponse";
 import { AuthService } from "@/services/authService";
 
 export const loginUser = async (req: Request, res: Response) => {
-  const { username, password } = req.body
+  const { email, password } = req.body
 
-  if (!username || !password) {
-    res.status(400).json(validationErrorResponse('username and password required'))
+  if (!email || !password) {
+    res.status(400).json(validationErrorResponse('email and password required'))
     return
   }
 
   try {
-    const data = await AuthService.loginUser(username, password)
+    const data = await AuthService.loginUser(email, password)
     
     res.header('Access-Control-Allow-Credentials', 'true');
     res.status(200).json(successResponse('Login succesfully', data))
